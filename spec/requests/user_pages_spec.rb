@@ -24,11 +24,22 @@ describe "User pages" do
     before { visit signup_path }
 
     let(:submit) { "Create my account" }
+	/#Chap 7 Ex 2
+	describe "with no information" do
+        before { click_button submit }
 
+        it { should have_selector('title', text: 'Sign up') }
+        it { should have_content('error') }
+    end
+	#/
     describe "with invalid information" do
       it "should not create a user" do
         expect { click_button submit }.not_to change(User, :count)
       end
+	  /#Chap 7 Ex 2
+	  it { should have_selector('title', text: 'Sign up') }
+      it { should have_content('error') }
+	  #/
     end
 
     describe "with valid information" do
@@ -38,7 +49,14 @@ describe "User pages" do
         fill_in "Password",     with: "foobar"
         fill_in "Confirmation", with: "foobar"
       end
+	  /#Chap 7 Ex 2
+	  describe "after submission" do
+        before { click_button submit }
 
+        it { should have_selector('title', text: 'Sign up') }
+        it { should have_content('error') }
+      end
+	  #/
       it "should create a user" do
         expect { click_button submit }.to change(User, :count).by(1)
       end
