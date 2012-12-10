@@ -46,9 +46,14 @@ describe "Micropost pages" do
 	###CH 10 EX 4###
 	describe "as incorrect user" do
 		let(:user2) { FactoryGirl.create(:user) }
+		before do
+			sign_in user2
+			visit root_path
+		end
 		
-		it "shouldn't see delete" do
-			it { should have_link("delete", href: ) }
+		
+		it "shouldn't see delete" do		
+			it { should_not have_link("delete") }
 		end
 	end
   end

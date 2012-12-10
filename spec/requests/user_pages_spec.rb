@@ -57,6 +57,7 @@ describe "User pages" do
     it { should have_selector('h1',    text: 'Sign up') }
     it { should have_selector('title', text: full_title('Sign up')) }
   end
+
   
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
@@ -68,10 +69,44 @@ describe "User pages" do
     it { should have_selector('h1',    text: user.name) }
     it { should have_selector('title', text: user.name) }
 
+	it "should render the user's feed" do
+        user.feed.each do |item|
+          page.should have_selector("li##{item.id}", text: item.content)
+        end
+    end
+
+    describe "follower/following counts" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        before do
+          other_user.follow!(user)
+          visit root_path
+        end
+
+		
+		######## CH 10 EX 1 #####################################
+        it { should have_link("0 following", href: following_user_path(user)) }
+        it { should have_link("1 followers", href: followers_user_path(user)) }
+    end
+	
     describe "microposts" do
       it { should have_content(m1.content) }
       it { should have_content(m2.content) }
       it { should have_content(user.microposts.count) }
+
+#########CH 10 EX 2 ############################################	  
+	  describe "pagination" do
+
+      before(:all) { 30.times { FactoryGirl.create(:micropost, user: user) } }
+      after(:all)  { Micropost.delete_all }
+
+      it { should have_selector('div.pagination') }
+
+      it "should list each user" do
+        Micropost.paginate(page: 1).each do |micropost|
+          page.should have_selector('li', text: micropost.content)
+        end
+      end
+    end
     end
 	
 	describe "follow/unfollow buttons" do
@@ -122,9 +157,21 @@ describe "User pages" do
           it { should have_selector('input', value: 'Follow') }
         end
       end
+
+
+###CH 10 EX 1########################################################################	
+	describe "follower/following plurality" do
+        before do
+          other_user.follow!(user)
+          visit root_path
+        end
+
+        it { should have_link("0 following", href: following_user_path(user)) }
+        it { should have_link("1 followers", href: followers_user_path(user)) }
     end
   end
-   
+end
+  
   describe "signup" do
 
     before { visit signup_path }

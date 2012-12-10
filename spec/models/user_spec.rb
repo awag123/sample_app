@@ -44,7 +44,6 @@ describe User do
   it { should be_valid }
   it { should_not be_admin }
 
-  ####Chapter 9 Ex. 1 Does not work!!####
   describe "accessible attributes" do
     it "should not allow access to admin" do
       expect do
@@ -236,4 +235,5 @@ describe User do
       its(:followed_users) { should_not include(other_user) }
     end
   end
+  	
 end

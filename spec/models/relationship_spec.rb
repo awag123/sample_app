@@ -34,4 +34,22 @@ describe Relationship do
     before { relationship.follower_id = nil }
     it { should_not be_valid }
   end
+ 
+
+ ###CH 11 EX 1### 
+ ############################################ 
+  describe "relationship associations" do
+    let!(:follower) do 
+      FactoryGirl.create(:user) 
+    end
+    let!(:followed) do
+      FactoryGirl.create(:user) 
+    end
+	before { follower.follow!(followed)}
+
+	it "should destroy associated relationships" do
+      follower.destroy
+      followed.followed_users.should be_empty
+    end
+  end
 end

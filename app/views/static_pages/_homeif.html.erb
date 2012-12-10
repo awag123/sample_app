@@ -1,11 +1,6 @@
 <div class="row">
     <aside class="span4">
-      <section>
-        <%= render 'shared/user_info' %>
-      </section>
-      <section>
-        <%= render 'shared/stats' %>
-      </section>
+      <%= render 'shared/stats_and_user_info', user: current_user %>
       <section>
         <%= render 'shared/micropost_form' %>
       </section>
