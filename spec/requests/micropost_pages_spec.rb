@@ -48,7 +48,7 @@ describe "Micropost pages" do
 		let(:user2) { FactoryGirl.create(:user) }
 		before do
 			sign_in user2
-			visit root_path
+			visit user_path(user)
 		end
 		
 		

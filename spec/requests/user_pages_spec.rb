@@ -77,15 +77,19 @@ describe "User pages" do
 
     describe "follower/following counts" do
         let(:other_user) { FactoryGirl.create(:user) }
-        before do
-          other_user.follow!(user)
-          visit root_path
-        end
+
+	    before {visit root_path}
 
 		
 		######## CH 10 EX 1 #####################################
-        it { should have_link("0 following", href: following_user_path(user)) }
-        it { should have_link("1 followers", href: followers_user_path(user)) }
+		it "should have 0 following" do
+			it { should have_link("0 following", href: following_user_path(user)) }
+		end
+		it "should shave 1 followers" do
+			before {other_user.follow!(user)}
+		
+			it { should have_link("1 followers", href: followers_user_path(user)) }
+		end
     end
 	
     describe "microposts" do

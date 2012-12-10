@@ -1,7 +1,7 @@
 <% if signed_in? %>
-  <%= render 'homeif'%>
+  <%= render 'static_pages/homeif'%>
 <% else %>
-  <%= render 'homeelse'%>
+  <%= render 'static_pages/homeelse'%>
 
   <%= link_to image_tag("rails.png", alt: "Rails"), 'http://rubyonrails.org/' %>
 <% end %> 
